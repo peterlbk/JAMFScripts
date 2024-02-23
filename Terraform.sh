@@ -1,7 +1,6 @@
 #!/bin/zsh
 
 # Script to get latest official Terraform version
-# Since this is not possible in Installomator..
 
 # Checking version
 binary="/usr/local/bin/terraform"
@@ -10,7 +9,7 @@ binary="/usr/local/bin/terraform"
 if [[ -e "$binary" ]]; then
 	listing=$($binary -v)
 	currentVerion=$(echo "$listing" | head -n 1 | awk '{print $2}' | tr -d v)
-	onlineVersion=$(echo "$listing" | sed '5q;d' | awk '{print $2}')
+	onlineVersion=$(echo "$listing" | sed '5q;d' | awk '{print $2}' | sed 's/.$//')
 fi
 if [[ -z $onlineVersion ]]; then 
 	echo "no local update found, checking online..."
@@ -26,6 +25,11 @@ if [[ "$currentVerion" != "$onlineVersion" ]]; then
 	fi
 	echo "downloading Terraform..."
 curl -fsL --show-error $downloadURL -o /tmp/terraform.zip 
+
+# if exists, remove old version..
+if [[ -e "$binary" ]]; then
+	rm -rf $binary
+fi
 
 unzip /tmp/terraform.zip -d /usr/local/bin/
 echo "install has finished!"
