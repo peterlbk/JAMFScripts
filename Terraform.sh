@@ -6,7 +6,7 @@
 which=$(which terraform)
 binary="/usr/local/bin/terraform"
 
-if [[ "$binary" == "$which" ]]; then
+if [[ "$binary" != "$which" ]]; then
 	rm -rf "$which"
 fi
 
