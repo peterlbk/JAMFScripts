@@ -3,7 +3,12 @@
 # Script to get latest official Terraform version
 
 # Checking version
+which=$(which terraform)
 binary="/usr/local/bin/terraform"
+
+if [[ "$binary" == "$which" ]]; then
+	rm -rf "$which"
+fi
 
 # if exists check local version and newer version else check for online version
 if [[ -e "$binary" ]]; then
