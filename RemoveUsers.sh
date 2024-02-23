@@ -2,7 +2,7 @@
 
 usernames=$(ls -l /dev/console | awk '{print $3}')
 
-for username in `dscl . list /Users UniqueID | awk '$2 >500 {print $1}' | grep -v $usernames | grep -v ^adm | grep -v ^eng`
+for username in `dscl . list /Users UniqueID | awk '$2 >500 {print $1}' | grep -v $usernames`
 do
     if [[ $username == `ls -l /dev/console | awk '{print $3}'` ]]; then
         echo "Skipping user: $username (current user)"
